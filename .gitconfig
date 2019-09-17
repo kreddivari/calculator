@@ -1,0 +1,12 @@
+
+[core]
+    filemode = true
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[user]
+	name = kreddivari
+	email = 33354417+kreddivari@users.noreply.github.com
