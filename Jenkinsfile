@@ -33,7 +33,7 @@ pipeline {
 
           stage("Docker build") {
                steps {
-                    sh "docker build -t leszko/calculator:${BUILD_TIMESTAMP} ."
+                    sh "docker build -t kreddiva/pipeline:${BUILD_TIMESTAMP} ."
                }
           }
 
@@ -48,7 +48,7 @@ pipeline {
 
           stage("Docker push") {
                steps {
-                    sh "docker push leszko/calculator:${BUILD_TIMESTAMP}"
+                    sh "docker push kreddiva/pipeline:${BUILD_TIMESTAMP}"
                }
           }
 
