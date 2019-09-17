@@ -7,7 +7,7 @@ pipeline {
      
           stage("Package") {
                steps {
-                    sh "gradle build"
+                    sh "./gradlew build"
                }
           }
 
