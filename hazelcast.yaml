@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: hazelcast
-        image: hazelcast/hazelcast:3.12
+        image: kreddiva/pipeline:3.12
         ports:
         - containerPort: 5701
 
