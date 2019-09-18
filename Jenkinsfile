@@ -12,29 +12,29 @@ pipeline {
           }
           stage("Unit test") {
                steps {
-                    sh "./gradlew test"
+                    bat "./gradlew test"
                }
           }
           stage("Code coverage") {
                steps {
-                    sh "./gradlew jacocoTestReport"
-                    sh "./gradlew jacocoTestCoverageVerification"
+                    bat "./gradlew jacocoTestReport"
+                    bat "./gradlew jacocoTestCoverageVerification"
                }
           }
           stage("Static code analysis") {
                steps {
-                    sh "./gradlew checkstyleMain"
+                    bat "./gradlew checkstyleMain"
                }
           }
           stage("Package") {
                steps {
-                    sh "./gradlew build"
+                    bat "./gradlew build"
                }
           }
 
           stage("Docker build") {
                steps {
-                    sh "docker build -t kreddiva/pipeline:${BUILD_TIMESTAMP} ."
+                    bat "docker build -t kreddiva/pipeline:${BUILD_TIMESTAMP} ."
                }
           }
 
@@ -42,14 +42,14 @@ pipeline {
                steps {
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-hub-credentials',
                                usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                         sh "docker login --username $USERNAME --password $PASSWORD"
+                         bat "docker login --username $USERNAME --password $PASSWORD"
                     }
                }
           }
 
           stage("Docker push") {
                steps {
-                    sh "docker push kreddiva/pipeline:${BUILD_TIMESTAMP}"
+                    bat "docker push kreddiva/pipeline:${BUILD_TIMESTAMP}"
                }
           }
 
