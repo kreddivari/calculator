@@ -34,7 +34,7 @@ pipeline {
 
           stage("Docker build") {
                steps {
-                    bat "docker build -t kreddiva/pipeline:demo."
+                    bat "docker build -t kreddiva/pipeline"
                }
           }
 
@@ -49,7 +49,7 @@ pipeline {
 
           stage("Docker push") {
                steps {
-                    bat "docker push kreddiva/pipeline:demo"
+                    bat "docker push kreddiva/pipeline"
                }
           }
 
