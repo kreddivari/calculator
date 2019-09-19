@@ -1,6 +1,6 @@
 pipeline {
       environment {
-    registry = "https://hub.docker.com/r/kreddiva/pipeline"
+    registry = "kreddiva/pipeline"
     registryCredential = 'docker-hub-credentials'
     dockerImage = ''
   }
@@ -37,23 +37,17 @@ pipeline {
                }
           }
 
-        //  stage("Docker build") {
-              // steps {
-                  //  bat "docker build -t kreddiva/pipeline:demo ." 
-             //  }
-         // }
- stage('Building image') {
-      steps{
-        script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
-        }
-      }
-    }
-      /*    stage("Docker login") {
+         stage("Docker build") {
+               steps {
+                    bat "docker build -t kreddiva/pipeline:demo ." 
+               }
+         }
+
+         stage("Docker login") {
                steps {
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-hub-credentials',
                                usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                         bat "docker login --username $USERNAME --password $PASSWORD"
+                         bat "docker login --username $USERNAME --password-stdin $PASSWORD"
                     }
                }
           }
@@ -62,24 +56,9 @@ pipeline {
                steps {
                     bat "docker push kreddiva/pipeline:demo"
                }
-          }*/
-           stage('Deploy Image') {
-      steps{
-         script {
-            docker.withRegistry( '', registryCredential ) {
-            dockerImage.push()
           }
-        }
-      }
-    }
-    stage('Remove Unused docker image') {
-      steps{
-        sh "docker rmi $registry:$BUILD_NUMBER"
-      }
-    }
-
-         
-          
-         
      }
+           
+          
+    }
 }
