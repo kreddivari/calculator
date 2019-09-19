@@ -1,9 +1,5 @@
 pipeline {
-      environment {
-    registry = "kreddiva/pipeline"
-    registryCredential = 'docker-hub-credentials'
-    dockerImage = ''
-  }
+    
      agent any
      triggers {
           pollSCM('* * * * *')
@@ -47,7 +43,7 @@ pipeline {
                steps {
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-hub-credentials',
                                usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                         bat "docker login --username $USERNAME --password-stdin $PASSWORD"
+                         bat "docker login --username $USERNAME --password $PASSWORD"
                     }
                }
           }
@@ -57,7 +53,7 @@ pipeline {
                     bat "docker push kreddiva/pipeline:demo"
                }
           }
-     }
+     
            
           
     }
