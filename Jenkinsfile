@@ -1,4 +1,9 @@
 pipeline {
+      environment {
+    registry = "kreddiva/pipeline"
+    registryCredential = 'docker-hub-credentials'
+    dockerImage = ''
+  }
      agent any
      triggers {
           pollSCM('* * * * *')
@@ -32,13 +37,19 @@ pipeline {
                }
           }
 
-          stage("Docker build") {
-               steps {
-                    bat "docker build -t kreddiva/pipeline:demo ." 
-               }
-          }
-
-          stage("Docker login") {
+        //  stage("Docker build") {
+              // steps {
+                  //  bat "docker build -t kreddiva/pipeline:demo ." 
+             //  }
+         // }
+ stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+    }
+      /*    stage("Docker login") {
                steps {
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-hub-credentials',
                                usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
@@ -51,7 +62,21 @@ pipeline {
                steps {
                     bat "docker push kreddiva/pipeline:demo"
                }
+          }*/
+           stage('Deploy Image') {
+      steps{
+         script {
+            docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
           }
+        }
+      }
+    }
+    stage('Remove Unused docker image') {
+      steps{
+        sh "docker rmi $registry:$BUILD_NUMBER"
+      }
+    }
 
          
           
