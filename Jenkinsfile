@@ -1,6 +1,6 @@
 pipeline {
       environment {
-    registry = "kreddiva/pipeline"
+    registry = "https://hub.docker.com/r/kreddiva/pipeline"
     registryCredential = 'docker-hub-credentials'
     dockerImage = ''
   }
